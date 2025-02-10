@@ -1,0 +1,63 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "sensors-ncas-toolkit"
+dynamic = ["version"]
+description = ''
+readme = "README.md"
+requires-python = ">=3.8"
+license = "BSD-3-Clause"
+keywords = []
+authors = [
+  { name = "Joshua Hampton", email = "joshua.hampton@ncas.ac.uk" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = [
+  "requests",
+]
+
+[project.urls]
+Documentation = "https://github.com/joshua-hampton/sensors-ncas-toolkit#readme"
+Issues = "https://github.com/joshua-hampton/sensors-ncas-toolkit/issues"
+Source = "https://github.com/joshua-hampton/sensors-ncas-toolkit"
+
+[tool.hatch.version]
+path = "src/sensors_ncas_toolkit/__about__.py"
+
+[tool.hatch.envs.types]
+extra-dependencies = [
+  "mypy>=1.0.0",
+]
+[tool.hatch.envs.types.scripts]
+check = "mypy --install-types --non-interactive {args:src/sensors_ncas_toolkit tests}"
+
+[tool.coverage.run]
+source_pkgs = ["sensors_ncas_toolkit", "tests"]
+branch = true
+parallel = true
+omit = [
+  "src/sensors_ncas_toolkit/__about__.py",
+]
+
+[tool.coverage.paths]
+sensors_ncas_toolkit = ["src/sensors_ncas_toolkit", "*/sensors-ncas-toolkit/src/sensors_ncas_toolkit"]
+tests = ["tests", "*/sensors-ncas-toolkit/tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]
