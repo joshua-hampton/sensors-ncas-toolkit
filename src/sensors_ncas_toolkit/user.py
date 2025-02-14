@@ -1,7 +1,7 @@
 """Handle requests about the user from the Sensors API
 
 This module contains the UserInfo class, which is used to handle requests to the
-Sensors API, including getting device data, updating devices, and adding new devices.
+Sensors API, including getting user information and user permission groups.
 """
 
 import requests
