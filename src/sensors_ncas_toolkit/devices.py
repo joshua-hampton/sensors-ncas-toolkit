@@ -7,6 +7,7 @@ API, including getting device data, updating devices, and adding new devices.
 import json
 import requests
 import re
+import pandas as pd
 from .core import CoreApi
 from .constants import (
     DEVICE_ATTRIBUTES, 
@@ -378,3 +379,49 @@ class Devices(CoreApi):
             raise Exception(msg)
 
 
+class NCASDevices(Devices):
+    """Manage NCAS devices in Sensors API
+
+    Attributes:
+        ncas_devices: dictionary of NCAS instrument data
+    """
+    @override
+    def __init__(self, api_key: Optional[str] = None) -> None:
+        super().__init__(api_key)
+        self.ncas_devices = None
+
+    def read_ncas_devices_from_tsv(self, tsv_file: str, sep: str = "\t") -> None:
+        """Read TSV file with NCAS instruments
+
+        Args:
+            tsv_file: TSV file with NCAS instrument data.
+            sep: Separator used in the tsv_file. Default "\t".
+        """
+        df = pd.read_csv(tsv_file, sep=sep)
+        self.ncas_devices = df.to_dict(orient = "records")
+
+    def find_ncas_devices_in_sensors(self) -> list[dict[str, Any]]:
+        """Finds all NCAS instruments in Sensors API
+
+        Find all instruments in the Sensors API that start with "ncas-".
+
+        Returns:
+            A list of dictionaries containing the information about NCAS devices
+              currently within the Sensors API.
+        """
+        return self.get_devices_by_name(device_name_pattern=r"^ncas-.+-[0-9]+$")
+
+    def update_sensors_from_ncas(self) -> None:
+        """Update data in Sensors API with NCAS data
+        """
+        pass
+
+    def update_ncas_from_sensors(self) -> None:
+        """Update data from NCAS file with that from Sensors API
+        """
+        pass
+
+    def write_ncas_devices_to_tsv(self, tsv_file: str) -> None:
+        """Write TSV file with NCAS instrument data
+        """
+        pass
