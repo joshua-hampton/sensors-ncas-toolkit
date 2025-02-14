@@ -43,4 +43,19 @@ class CoreApi:
         """
         self.api_key = api_key
 
+    def _check_user_api_key(self, verbose=True) -> bool:
+        """Check if API key exists.
+
+        Args:
+            verbose: Print warning message if no API key exists
+
+        Returns:
+            Boolean for API key existence.
+        """
+        if self.api_key is None:
+            if verbose:
+                print("[WARNING]: No user API key found.")
+            return False
+        return True
+
 
